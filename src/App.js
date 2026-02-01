@@ -27,8 +27,8 @@ function App() {
     // We define two "Safe Zones" (Top 20% and Bottom 20%)
     // The Middle 60% is completely banned.
     const safeZones = [
-      { min: 5, max: 15 },  // Top area (5% to 25% down the screen)
-      { min: 99, max: 100 }  // Bottom area (75% to 90% down the screen)
+      { min: 5, max: 25 },  // Top area (5% to 25% down the screen)
+      { min: 120, max: 150 }  // Bottom area (75% to 100% down the screen)
     ];
 
     // Pick one zone randomly (Top or Bottom)

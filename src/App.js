@@ -68,7 +68,7 @@ function App() {
         ) : (
           !accepted ? (
             <>
-              <h1 className="neon-text">Hey Shraddha, will you be my(Chandram) valentine?</h1>
+              <h1 className="neon-text">Hey Shraddha, will you be Chandram's valentine?</h1>
               
               <div className="button-group">
                 <button className="btn yes-btn" onClick={handleYesClick}>

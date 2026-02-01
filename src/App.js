@@ -82,7 +82,7 @@ function App() {
                   onMouseEnter={handleNoClick} 
                   onTouchStart={handleNoClick} 
                 >
-                  NO
+                  gadari karbe
                 </button>
               </div>
             </>

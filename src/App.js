@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
-import bgImage from './bg_val.jpg';
+import bgImage from './bg_vd_1.jpg';
 import videoFile from './bg_video.mp4';
 import musicFile from './song.mp3';
 

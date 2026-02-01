@@ -1,38 +1,159 @@
-.App {
-  text-align: center;
+/* Reset basic margins */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Arial', sans-serif;
+  overflow: hidden; /* Prevents scrollbars when button moves */
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.container {
+  height: 100vh;
+  width: 100vw;
+  /* CHANGED: Forces image to fit height and width exactly */
+  background-size: 100% 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  position: relative;
+}
+
+/* Dark overlay to ensure neon text is readable on any image */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 50% dark tint */
+  z-index: 1;
+}
+
+/* Content wrapper to sit above the overlay */
+.content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 90%;
+}
+
+/* Pink Neon Header */
+.neon-text {
+  color: #fff;
+  font-size: 3rem; /* Dynamic sizing logic is in media queries below */
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-shadow: 
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 20px #ff00de,
+      0 0 30px #ff00de,
+      0 0 40px #ff00de;
+  animation: flicker 1.5s infinite alternate;
+}
+
+
+
+/* Button Group */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  height: 60px; /* fixed height area to prevent layout jumps */
+}
+
+.btn {
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  
+  /* ADD THIS LINE BELOW: */
+  white-space: nowrap; /* Prevents button text from breaking into two lines */
+  z-index: 100; /* Ensures button is always on top of everything */
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* YES Button (Pink) */
+.yes-btn {
+  background-color: #ff69b4; /* Hot Pink */
   color: white;
+  box-shadow: 0 0 15px #ff69b4;
 }
 
-.App-link {
-  color: #61dafb;
+.yes-btn:hover {
+  background-color: #ff1493;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* NO Button (White) */
+.no-btn {
+  background-color: white;
+  color: black;
+  /* Transition is explicitly removed for 'top' and 'left' to make it jump instantly */
+}
+
+/* ... keep your existing styles ... */
+
+/* New Style for the "Start" Button */
+.start-btn {
+  background-color: transparent;
+  border: 2px solid #ff69b4;
+  color: #fff;
+  font-size: 2rem;
+  padding: 20px 50px;
+  animation: pulse 2s infinite;
+}
+
+.start-btn:hover {
+  background-color: #ff69b4;
+  box-shadow: 0 0 20px #ff69b4;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Updated Video Style (Replaces gif-style) */
+.video-style {
+  max-width: 80%; /* Adjusted for better video scaling */
+  width: 500px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Ensure container prevents scrollbars */
+.container {
+  overflow: hidden; 
+}
+/* Animation for Neon Flicker */
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .neon-text {
+    font-size: 2rem;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .btn {
+    padding: 10px 30px;
+    font-size: 1rem;
   }
 }

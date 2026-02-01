@@ -115,6 +115,32 @@ body, html {
   background-color: #ff69b4;
   box-shadow: 0 0 20px #ff69b4;
 }
+/* Update this section */
+.success-container {
+  display: flex;
+  flex-direction: column; /* Stacks video on top of text */
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Forces a safe gap between video and text */
+  width: 100%;
+}
+
+/* Update the video style to be "height-aware" */
+.video-style {
+  width: auto;         /* Let width adjust automatically */
+  max-width: 90%;      /* Never wider than screen */
+  max-height: 50vh;    /* NEW: Never taller than 50% of the screen height */
+  
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+  display: block;
+}
+
+/* Optional: Make text smaller specifically on the Success page if needed */
+.success-container .neon-text {
+  font-size: 2rem; /* Slightly smaller to ensure fit */
+  margin-top: 20px;
+}
 
 @keyframes pulse {
   0% { transform: scale(1); }

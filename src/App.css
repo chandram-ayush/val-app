@@ -160,6 +160,14 @@ body, html {
   margin-right: auto;
 }
 
+.img-style {
+  max-width: 50%;
+  width: 400px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+}
+
 /* Ensure container prevents scrollbars */
 .container {
   overflow: hidden; 

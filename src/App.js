@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
 import bgImage from './bg_val.jpg';
-import videoFile from './bg_vd_1.mp4';
-import musicFile from './song.mp3';
+import successImage from './img1.jpeg'; // Renamed for clarity
+import musicFile from './audio1.mpeg';
 
 function App() {
   const [started, setStarted] = useState(false); 
@@ -10,7 +10,6 @@ function App() {
   const [noBtnStyle, setNoBtnStyle] = useState({});
   const audioRef = useRef(null);
 
-  // 1. AUDIO HANDLING
   const handleStart = () => {
     setStarted(true);
     if (audioRef.current) {
@@ -20,36 +19,23 @@ function App() {
     }
   };
 
-  // 2. NO BUTTON LOGIC (Mobile Safe Version)
   const handleNoClick = () => {
-    // START FIX: Strict "No-Overlap" Logic
-    
-    // We define two "Safe Zones" (Top 20% and Bottom 20%)
-    // The Middle 60% is completely banned.
     const safeZones = [
-      { min: 5, max: 25 },  // Top area (5% to 25% down the screen)
-      { min: 120, max: 150 }  // Bottom area (75% to 100% down the screen)
+      { min: 5, max: 25 },
+      { min: 120, max: 150 }
     ];
-
-    // Pick one zone randomly (Top or Bottom)
     const randomZone = safeZones[Math.floor(Math.random() * safeZones.length)];
-
-    // Calculate random Top position within that safe zone
     const randomTop = Math.floor(Math.random() * (randomZone.max - randomZone.min)) + randomZone.min;
-
-    // Calculate random Left position (5% to 85% to avoid edge clipping)
     const randomLeft = Math.floor(Math.random() * 80) + 5;
 
     setNoBtnStyle({
       position: 'absolute',
       left: `${randomLeft}%`,
       top: `${randomTop}%`,
-      transition: 'all 0.3s ease', // Smooth glide
+      transition: 'all 0.3s ease',
     });
-    // END FIX
   };
 
-  // 3. YES BUTTON LOGIC
   const handleYesClick = () => {
     setAccepted(true);
   };
@@ -68,7 +54,7 @@ function App() {
         ) : (
           !accepted ? (
             <>
-              <h1 className="neon-text">Hey Shraddha, will you be Chandram's valentine?</h1>
+              <h1 className="neon-text">Hey Pratik, will you be Arushi's valentine?</h1>
               
               <div className="button-group">
                 <button className="btn yes-btn" onClick={handleYesClick}>
@@ -88,15 +74,13 @@ function App() {
             </>
           ) : (
             <div className="success-container">
-              <video 
-                src={videoFile} 
-                autoPlay 
-                loop 
-                muted 
-                playsInline 
-                className="video-style" 
+              {/* CHANGED FROM <video> TO <img> */}
+              <img 
+                src={successImage} 
+                alt="Valentine Celebration"
+                className="img-style" 
               />
-              <h1 className="neon-text">Please wait till 22nd Feb! ❤️</h1>
+              <h1 className="neon-text">Please be my forever! ❤️</h1>
             </div>
           )
         )}

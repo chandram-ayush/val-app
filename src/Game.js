@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'; // 1. Import useCallback
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './Game.css';
-import playerImg from './runner.jpeg';
-import chaserImg from './chaser.jpeg';
-import obstacleImg from './runner.jpeg';
+import playerImg from './runner1.png';
+import chaserImg from './chaser1.png';
+import obstacleImg from './obsimg.png';
 
 const Game = ({ onClose, bgImage }) => {
   const [isJumping, setIsJumping] = useState(false);
@@ -13,21 +13,22 @@ const Game = ({ onClose, bgImage }) => {
   const obstacleRef = useRef(null);
   const scoreInterval = useRef(null);
 
-  // 2. Wrap jump in useCallback
+  // Jump Logic
   const jump = useCallback(() => {
     if (!isJumping && !gameOver) {
       setIsJumping(true);
       setTimeout(() => {
         setIsJumping(false);
-      }, 800); 
+      }, 800); // Duration matches CSS animation
     }
-  }, [isJumping, gameOver]); // Dependencies for jump
+  }, [isJumping, gameOver]);
 
   const resetGame = () => {
     setGameOver(false);
     setScore(0);
   };
 
+  // --- FIXED COLLISION DETECTION ---
   useEffect(() => {
     const detectCollision = setInterval(() => {
       if (gameOver) return;
@@ -36,10 +37,17 @@ const Game = ({ onClose, bgImage }) => {
       const obstacle = obstacleRef.current;
 
       if (player && obstacle) {
-        const playerTop = parseInt(window.getComputedStyle(player).getPropertyValue('top'));
-        const obstacleLeft = parseInt(window.getComputedStyle(obstacle).getPropertyValue('left'));
+        // We use getBoundingClientRect() to get exact screen positions
+        // This works perfectly even with % based CSS positions
+        const playerRect = player.getBoundingClientRect();
+        const obstacleRect = obstacle.getBoundingClientRect();
 
-        if (obstacleLeft > 0 && obstacleLeft < 60 && playerTop >= 250) {
+        // Check if rectangles overlap
+        if (
+          obstacleRect.left < playerRect.right - 20 && // Obstacle hits right side of player (with buffer)
+          obstacleRect.right > playerRect.left + 20 && // Obstacle hits left side of player
+          playerRect.bottom > obstacleRect.top + 20    // Player is not high enough (vertical collision)
+        ) {
           setGameOver(true);
           clearInterval(scoreInterval.current);
         }
@@ -58,7 +66,7 @@ const Game = ({ onClose, bgImage }) => {
     };
   }, [gameOver]);
 
-  // 3. Update useEffect dependency to [jump]
+  // Keyboard controls
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.code === 'Space' || event.code === 'ArrowUp') {
@@ -67,8 +75,9 @@ const Game = ({ onClose, bgImage }) => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [jump]); 
+  }, [jump]);
 
+  // Mobile Tap Control
   const handleScreenTap = (e) => {
     if (e.target.tagName.toLowerCase() !== 'button') {
       jump();
@@ -100,6 +109,7 @@ const Game = ({ onClose, bgImage }) => {
           className={`player ${isJumping ? 'animate-jump' : 'run-animation'}`} 
         />
 
+        {/* Conditionally render obstacle so it resets position on Game Over */}
         {!gameOver && (
           <img 
             ref={obstacleRef}

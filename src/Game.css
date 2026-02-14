@@ -9,7 +9,7 @@
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  touch-action: manipulation; /* Prevents double-tap zoom on phones */
+  touch-action: manipulation;
 }
 
 .game-overlay {
@@ -46,28 +46,28 @@
 
 /* --- PLAYERS --- */
 .player {
-  width: 50px;
-  height: 50px;
+  width: 90px;
+  height: 90px;
+  object-fit: contain; /* Keeps image shape inside the box */
   position: absolute;
-  top: 250px;
-  left: 15%; /* Use percentage for mobile */
+  top: 220px; /* 300px container - 60px height = 240px */
+  left: 15%; 
   z-index: 2;
-  border-radius: 50%; 
-  box-shadow: 0 0 10px white;
 }
 
 .chaser {
   width: 60px;
   height: 60px;
+  object-fit: contain;
   position: absolute;
-  top: 240px; 
-  left: 2%; /* Use percentage for mobile */
+  top: 240px; /* Aligned with player */
+  left: 2%; 
   z-index: 1;
   transition: left 0.5s ease;
 }
 
 .chaser.caught {
-  left: 14%; /* Move onto player when caught */
+  left: 14%; 
 }
 
 /* RUNNING ANIMATION */
@@ -86,26 +86,26 @@
 }
 
 @keyframes jump {
-  0% { top: 250px; }
-  30% { top: 120px; } 
-  70% { top: 120px; }
-  100% { top: 250px; }
+  0% { top: 240px; }   /* Start at ground */
+  30% { top: 100px; }  /* Jump Peak */
+  70% { top: 100px; }  /* Hang time */
+  100% { top: 240px; } /* Land at ground */
 }
 
-/* --- OBSTACLE (MOBILE RESPONSIVE) --- */
+/* --- OBSTACLE --- */
 .obstacle {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
   position: absolute;
-  top: 260px;
-  left: 100%; /* Start off-screen on any device size */
+  top: 240px; /* Aligned with player */
+  left: 100%; 
   animation: moveObstacle 3s infinite linear; 
 }
 
-/* Uses 100% to adapt to phone width! */
 @keyframes moveObstacle {
   0% { left: 100%; } 
-  100% { left: -50px; }
+  100% { left: -60px; } /* Move completely off screen */
 }
 
 /* --- GAME OVER SCREEN (PINK THEME) --- */
@@ -114,7 +114,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #fff0f5; /* LavenderBlush background */
+  background: #fff0f5; 
   padding: 30px 40px;
   border-radius: 20px;
   text-align: center;

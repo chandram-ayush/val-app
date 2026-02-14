@@ -48,9 +48,9 @@
 .player {
   width: 90px;
   height: 90px;
-  object-fit: contain; /* Keeps image shape inside the box */
+  object-fit: contain; 
   position: absolute;
-  top: 220px; /* 300px container - 60px height = 240px */
+  top: 220px; 
   left: 15%; 
   z-index: 2;
 }
@@ -60,7 +60,7 @@
   height: 60px;
   object-fit: contain;
   position: absolute;
-  top: 240px; /* Aligned with player */
+  top: 240px; 
   left: 2%; 
   z-index: 1;
   transition: left 0.5s ease;
@@ -80,16 +80,17 @@
   50% { transform: translateY(-5px); }
 }
 
-/* JUMP ANIMATION */
+/* --- CHANGED: EASIER JUMP ANIMATION --- */
 .animate-jump {
-  animation: jump 0.8s linear;
+  /* Increased duration to 1.5s for a longer, easier jump */
+  animation: jump 1.5s linear; 
 }
 
 @keyframes jump {
-  0% { top: 240px; }   /* Start at ground */
-  30% { top: 100px; }  /* Jump Peak */
-  70% { top: 100px; }  /* Hang time */
-  100% { top: 240px; } /* Land at ground */
+  0% { top: 220px; }   /* Start */
+  20% { top: 80px; }   /* Reach top quickly */
+  80% { top: 80px; }   /* STAY at top (Hang time) - makes jump 'wider' */
+  100% { top: 220px; } /* Land */
 }
 
 /* --- OBSTACLE --- */
@@ -98,24 +99,25 @@
   height: 50px;
   object-fit: contain;
   position: absolute;
-  top: 250px; /* Aligned with player */
+  top: 250px; 
   left: 100%; 
   animation: moveObstacle 3s infinite linear; 
 }
 
 @keyframes moveObstacle {
   0% { left: 100%; } 
-  100% { left: -60px; } /* Move completely off screen */
+  100% { left: -60px; } 
 }
 
-/* --- GAME OVER SCREEN (PINK THEME) --- */
+/* --- CHANGED: GAME OVER SCREEN ON TOP --- */
 .game-over-screen {
   position: absolute;
-  top: 50%;
+  top: 15%; /* CHANGED: Moved to top area instead of 50% */
   left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff0f5; 
-  padding: 30px 40px;
+  transform: translateX(-50%); /* CHANGED: Only center horizontally */
+  
+  background: rgba(255, 240, 245, 0.95); /* Slight transparency */
+  padding: 20px 40px;
   border-radius: 20px;
   text-align: center;
   z-index: 20;
@@ -144,7 +146,6 @@
   gap: 15px;
 }
 
-/* Pink Buttons inside Game Over */
 .pink-btn {
   background-color: #ff4d88;
   color: white;
@@ -163,7 +164,6 @@
   background-color: #e63973;
 }
 
-/* Secondary Button style */
 .pink-btn.outline-btn {
   background-color: transparent;
   color: #ff4d88;

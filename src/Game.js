@@ -19,7 +19,7 @@ const Game = ({ onClose, bgImage }) => {
       setIsJumping(true);
       setTimeout(() => {
         setIsJumping(false);
-      }, 800); // Duration matches CSS animation
+      }, 1000); // CHANGED: Increased to 1500ms to match new CSS for an easier jump
     }
   }, [isJumping, gameOver]);
 
@@ -28,7 +28,7 @@ const Game = ({ onClose, bgImage }) => {
     setScore(0);
   };
 
-  // --- FIXED COLLISION DETECTION ---
+  // --- COLLISION DETECTION ---
   useEffect(() => {
     const detectCollision = setInterval(() => {
       if (gameOver) return;
@@ -37,16 +37,14 @@ const Game = ({ onClose, bgImage }) => {
       const obstacle = obstacleRef.current;
 
       if (player && obstacle) {
-        // We use getBoundingClientRect() to get exact screen positions
-        // This works perfectly even with % based CSS positions
         const playerRect = player.getBoundingClientRect();
         const obstacleRect = obstacle.getBoundingClientRect();
 
-        // Check if rectangles overlap
+        // Check if rectangles overlap (Modified buffer to be more forgiving)
         if (
-          obstacleRect.left < playerRect.right - 20 && // Obstacle hits right side of player (with buffer)
-          obstacleRect.right > playerRect.left + 20 && // Obstacle hits left side of player
-          playerRect.bottom > obstacleRect.top + 20    // Player is not high enough (vertical collision)
+          obstacleRect.left < playerRect.right - 30 && // More forgiveness on the front
+          obstacleRect.right > playerRect.left + 30 && // More forgiveness on the back
+          playerRect.bottom > obstacleRect.top + 15    
         ) {
           setGameOver(true);
           clearInterval(scoreInterval.current);
@@ -109,7 +107,6 @@ const Game = ({ onClose, bgImage }) => {
           className={`player ${isJumping ? 'animate-jump' : 'run-animation'}`} 
         />
 
-        {/* Conditionally render obstacle so it resets position on Game Over */}
         {!gameOver && (
           <img 
             ref={obstacleRef}

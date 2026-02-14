@@ -1,14 +1,25 @@
 .game-container {
   width: 100%;
   height: 100vh;
-  background-color: #f7f7f7;
+  background-size: cover;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  border: 5px solid #ff4d4d;
+  touch-action: manipulation; /* Prevents double-tap zoom on phones */
+}
+
+.game-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); 
+  z-index: 0;
 }
 
 .score {
@@ -16,93 +27,151 @@
   top: 20px;
   right: 20px;
   font-family: 'Courier New', monospace;
-  font-size: 24px;
+  font-weight: bold;
+  font-size: 28px;
+  color: white;
+  z-index: 10;
+  text-shadow: 2px 2px 5px #ff4d88;
 }
 
 .game-area {
-  width: 100%; /* Full width for mobile */
+  width: 100%;
   max-width: 800px;
   height: 300px;
-  border-bottom: 2px solid black;
+  border-bottom: 4px solid white;
   position: relative;
-  overflow: hidden; /* Hides obstacle when it leaves screen */
+  overflow: hidden;
+  z-index: 10;
 }
 
-/* --- CHARACTERS --- */
-
-/* The Player (Head) */
+/* --- PLAYERS --- */
 .player {
   width: 50px;
   height: 50px;
   position: absolute;
-  top: 250px; /* Ground level */
-  left: 100px; /* Fixed horizontal position */
+  top: 250px;
+  left: 15%; /* Use percentage for mobile */
   z-index: 2;
+  border-radius: 50%; 
+  box-shadow: 0 0 10px white;
 }
 
-/* The Chaser (Behind the player) */
 .chaser {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   position: absolute;
   top: 240px; 
-  left: 20px; /* Behind the player */
+  left: 2%; /* Use percentage for mobile */
   z-index: 1;
   transition: left 0.5s ease;
 }
 
 .chaser.caught {
-    left: 90px; /* Moves onto the player when game over */
+  left: 14%; /* Move onto player when caught */
 }
 
-/* The Jump Animation */
+/* RUNNING ANIMATION */
+.run-animation {
+  animation: runBob 0.8s infinite ease-in-out;
+}
+
+@keyframes runBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* JUMP ANIMATION */
 .animate-jump {
-  animation: jump 0.5s linear;
+  animation: jump 0.8s linear;
 }
 
 @keyframes jump {
   0% { top: 250px; }
-  30% { top: 150px; } /* Peak of jump */
-  70% { top: 150px; }
+  30% { top: 120px; } 
+  70% { top: 120px; }
   100% { top: 250px; }
 }
 
-/* --- OBSTACLE --- */
+/* --- OBSTACLE (MOBILE RESPONSIVE) --- */
 .obstacle {
   width: 40px;
   height: 40px;
   position: absolute;
   top: 260px;
-  left: 800px; /* Start off-screen right */
-  animation: moveObstacle 1.5s infinite linear;
+  left: 100%; /* Start off-screen on any device size */
+  animation: moveObstacle 3s infinite linear; 
 }
 
+/* Uses 100% to adapt to phone width! */
 @keyframes moveObstacle {
-  0% { left: 800px; }
+  0% { left: 100%; } 
   100% { left: -50px; }
 }
 
-/* Stop animation when game over */
-.stop-animation {
-  animation: none;
-  display: block;
-}
-
-/* --- UI --- */
+/* --- GAME OVER SCREEN (PINK THEME) --- */
 .game-over-screen {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border: 2px solid black;
+  background: #fff0f5; /* LavenderBlush background */
+  padding: 30px 40px;
+  border-radius: 20px;
   text-align: center;
-  z-index: 10;
-  box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+  z-index: 20;
+  border: 4px solid #ff4d88;
+  box-shadow: 0 0 30px rgba(255, 77, 136, 0.6);
+  min-width: 250px;
 }
 
-.close-btn {
-    margin-top: 10px;
-    background-color: #333;
+.game-over-title {
+  color: #ff4d88;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.game-over-score {
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.game-over-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Pink Buttons inside Game Over */
+.pink-btn {
+  background-color: #ff4d88;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 77, 136, 0.4);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.pink-btn:hover {
+  transform: scale(1.05);
+  background-color: #e63973;
+}
+
+/* Secondary Button style */
+.pink-btn.outline-btn {
+  background-color: transparent;
+  color: #ff4d88;
+  border: 2px solid #ff4d88;
+  box-shadow: none;
+}
+
+.pink-btn.outline-btn:hover {
+  background-color: #ff4d88;
+  color: white;
 }

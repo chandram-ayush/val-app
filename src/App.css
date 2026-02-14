@@ -173,6 +173,28 @@ body, html {
   overflow: hidden; 
 }
 /* Animation for Neon Flicker */
+.game-btn {
+  background-color: #6a5acd; /* Slate Blue */
+  color: white;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  border: 2px solid white;
+  animation: popIn 0.5s ease-out forwards;
+  opacity: 0; /* Starts invisible for animation */
+  animation-delay: 1s; /* Waits for the success image to load a bit */
+}
+
+.game-btn:hover {
+  background-color: #483d8b;
+  transform: scale(1.1);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  80% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 @keyframes flicker {
   0% { opacity: 1; }
   50% { opacity: 0.9; }

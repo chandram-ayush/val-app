@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
 import bgImage from './bg_val.jpg';
-import successImage from './img2.jpeg'; // Renamed for clarity
+import successImage from './img2.jpeg'; 
 import musicFile from './song.mp3';
+import Game from './Game'; 
 
 function App() {
   const [started, setStarted] = useState(false); 
   const [accepted, setAccepted] = useState(false);
+  const [showGame, setShowGame] = useState(false); 
   const [noBtnStyle, setNoBtnStyle] = useState({});
   const audioRef = useRef(null);
 
@@ -39,6 +41,11 @@ function App() {
   const handleYesClick = () => {
     setAccepted(true);
   };
+
+  if (showGame) {
+    // PASS THE BACKGROUND IMAGE HERE
+    return <Game onClose={() => setShowGame(false)} bgImage={bgImage} />;
+  }
 
   return (
     <div className="container" style={{ backgroundImage: `url(${bgImage})` }}>
@@ -74,13 +81,30 @@ function App() {
             </>
           ) : (
             <div className="success-container">
-              {/* CHANGED FROM <video> TO <img> */}
               <img 
                 src={successImage} 
                 alt="Valentine Celebration"
                 className="img-style" 
               />
               <h1 className="neon-text">Please be my forever! ❤️</h1>
+              
+              {/* PINK THEMED BUTTON */}
+              <button 
+                className="btn" 
+                onClick={() => setShowGame(true)}
+                style={{
+                  marginTop: '20px',
+                  backgroundColor: '#ff4d88', // Pink to match theme
+                  color: 'white',
+                  border: '2px solid white',
+                  fontSize: '1.2rem',
+                  padding: '10px 20px',
+                  borderRadius: '30px',
+                  boxShadow: '0 5px 15px rgba(255, 77, 136, 0.4)'
+                }}
+              >
+                Let's Play a Game! 🎮
+              </button>
             </div>
           )
         )}

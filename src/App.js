@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
 import bgImage from './bg_val.jpg';
-import successImage from './img1.jpeg'; // Renamed for clarity
-import musicFile from './audio1.mpeg';
+import successImage from './img2.jpeg'; // Renamed for clarity
+import musicFile from './song.mp3';
 
 function App() {
   const [started, setStarted] = useState(false); 
@@ -54,7 +54,7 @@ function App() {
         ) : (
           !accepted ? (
             <>
-              <h1 className="neon-text">Hey Pratik, will you be Arushi's valentine?</h1>
+              <h1 className="neon-text">Hey Shraddha, will you be Chandram's valentine?</h1>
               
               <div className="button-group">
                 <button className="btn yes-btn" onClick={handleYesClick}>

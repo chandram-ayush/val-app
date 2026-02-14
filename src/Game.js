@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react'; // 1. Import useCallback
 import './Game.css';
 import playerImg from './runner.jpeg';
 import chaserImg from './chaser.jpeg';
@@ -13,16 +13,16 @@ const Game = ({ onClose, bgImage }) => {
   const obstacleRef = useRef(null);
   const scoreInterval = useRef(null);
 
-  const jump = () => {
+  // 2. Wrap jump in useCallback
+  const jump = useCallback(() => {
     if (!isJumping && !gameOver) {
       setIsJumping(true);
       setTimeout(() => {
         setIsJumping(false);
       }, 800); 
     }
-  };
+  }, [isJumping, gameOver]); // Dependencies for jump
 
-  // --- NEW: Reset Game without reloading the page ---
   const resetGame = () => {
     setGameOver(false);
     setScore(0);
@@ -39,7 +39,6 @@ const Game = ({ onClose, bgImage }) => {
         const playerTop = parseInt(window.getComputedStyle(player).getPropertyValue('top'));
         const obstacleLeft = parseInt(window.getComputedStyle(obstacle).getPropertyValue('left'));
 
-        // Collision Logic
         if (obstacleLeft > 0 && obstacleLeft < 60 && playerTop >= 250) {
           setGameOver(true);
           clearInterval(scoreInterval.current);
@@ -59,7 +58,7 @@ const Game = ({ onClose, bgImage }) => {
     };
   }, [gameOver]);
 
-  // Keyboard listener for desktop
+  // 3. Update useEffect dependency to [jump]
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.code === 'Space' || event.code === 'ArrowUp') {
@@ -68,11 +67,9 @@ const Game = ({ onClose, bgImage }) => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isJumping, gameOver]);
+  }, [jump]); 
 
-  // --- NEW: Screen tap handler for mobile ---
   const handleScreenTap = (e) => {
-    // Prevent jumping if the user is clicking the "Try Again" or "Close" buttons
     if (e.target.tagName.toLowerCase() !== 'button') {
       jump();
     }
@@ -82,8 +79,8 @@ const Game = ({ onClose, bgImage }) => {
     <div 
       className="game-container" 
       style={{ backgroundImage: `url(${bgImage})` }}
-      onClick={handleScreenTap}       // Tap anywhere on screen
-      onTouchStart={handleScreenTap}  // Touch anywhere on phone
+      onClick={handleScreenTap}       
+      onTouchStart={handleScreenTap}  
     >
       <div className="game-overlay"></div> 
       
@@ -103,7 +100,6 @@ const Game = ({ onClose, bgImage }) => {
           className={`player ${isJumping ? 'animate-jump' : 'run-animation'}`} 
         />
 
-        {/* We use a key based on gameOver state so the obstacle animation restarts properly on "Try Again" */}
         {!gameOver && (
           <img 
             ref={obstacleRef}
